@@ -15,5 +15,3 @@ ITW   Projekt 1 12/20 : Projekt 2 23/30
 IUS   31. Ženská věznice 14/24
 
 IZP   Projekt 1 - Práce s textem 4.7/10
-
-My fit projects
