@@ -1,0 +1,369 @@
+* {
+    margin: 0;
+    padding: 0;
+    line-height: 1.7;
+}
+
+#navigation{
+    padding-left: 20px;
+    padding-right: 20px;
+    margin: auto;
+    padding: 0 15%;
+}
+
+#header{
+    padding-left: 20px;
+    padding-right: 20px;
+    margin: auto;
+    padding: 0 15%;
+}
+
+#about{
+    padding-left: 20px;
+    padding-right: 20px;
+    margin: auto;
+    padding: 0 15%;
+}
+
+#middle-sections{
+    padding-left: 20px;
+    padding-right: 20px;
+    margin: auto;
+    padding: 0 15%;
+}
+
+#steps{
+    padding-left: 20px;
+    padding-right: 20px;
+    margin: auto;
+    padding: 0 15%;
+}
+
+#contact{
+    padding-left: 20px;
+    padding-right: 20px;
+    margin: auto;
+    padding: 0 15%;
+}
+
+#footer-note{
+    padding-left: 20px;
+    padding-right: 20px;
+    margin: auto;
+    padding: 0 15%;
+}
+
+nav#navigation div.content{
+    padding-top: 20px;
+    padding-bottom: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-family:Montserrat;
+}
+div#nav-logo div a{
+    font-size:25px;
+    color:Black;
+    text-decoration: none;
+    font-weight: bold;
+}
+#nav-menu ul{
+    margin:0;
+    padding:0;
+    list-style: none;
+    display: flex;
+    align-items: center;
+}
+#nav-menu ul li a{
+    font-size:13px;
+    color:#bfbfbf;
+    padding:0 20px;
+    padding-top: 8px;
+    text-transform: uppercase;
+    letter-spacing: .05em;
+    text-decoration: none;
+}  
+
+header#header div.content{
+    position: relative;
+}
+
+header#header div.content img{
+	width: 100%;  
+}
+
+header#header div.content h1{
+    font-weight: 200;
+    font-family:Montserrat; 
+    font-size:32px;
+    position: absolute;
+    color:white;
+    left: 20px;
+    bottom: 20px;
+}
+
+a{
+    font-family:Montserrat; 
+    color: steelblue;
+    text-decoration: none;
+}
+
+#about{
+    padding-top: 40px;
+}
+
+section#about div.content h2{
+    font-weight: 200;
+    color: #4d4d4d;
+    padding-bottom: 30px;
+    font-family:Merriweather;
+    font-size: 40px;
+    text-align: center;
+}
+
+section#about div.content>p{
+    color:#bfbfbf;
+    text-align: center;
+    padding-bottom: 25px;
+}
+
+section#about div.content div {
+    display: flex;
+    flex-direction: row;
+}
+
+section#about div.content div div.about-item {
+    padding-right: 40px;
+    display: flex;
+    flex-direction: column;
+}
+
+div.about-item img{ 
+    width: 100%;
+    padding-bottom: 20px;
+}
+
+section#about div.content h3{
+    float:left;
+    padding-right: 10px;
+    font-weight: 200;
+    color: #4d4d4d;
+    font-family:Merriweather;
+    font-size:24px;
+    padding-bottom: 10px;
+}
+
+.about-item p{
+    font-size:14px;
+    text-align: left;
+    font-family:Merriweather;
+    color:#898989;
+    padding-bottom: 100px;
+}
+
+div#middle-sections{
+    padding-top: 40px;
+    padding-bottom: 100px;
+    background-color: whitesmoke;  
+}
+div#middle-sections .content{
+    padding-right: 40px;
+    display: flex;
+    flex-direction: row;
+}
+
+#news{
+    flex:2;
+}
+
+#references{
+    flex:1;
+}
+
+#news h2{
+    color: #4d4d4d;
+    font-family:Montserrat;
+    font-weight: 200;
+    font-size: 32px;
+    padding-bottom: 30px;
+}
+
+.news-item h3 a{
+    font-size: 24px;
+    font-family:Montserrat;
+    font-weight: 200;
+}
+
+.news-date{
+    font-size: 12px;
+    color: #898989;
+    font-family:Montserrat;
+    text-transform: uppercase;
+}
+
+.news-item p {
+    color: #898989;
+    font-family:Merriweather;
+    padding-bottom: 20px;
+    border-bottom: 1px solid #e3e3e3;
+    
+}
+
+div#news-btn{
+    background-color:lightsteelblue;
+    width: 110px;
+    padding: .5em 0.7em;
+    text-align: center;
+    font-weight: 600;
+    text-transform: uppercase;
+    font-family:Montserrat; 
+}
+
+section#references h2{
+    padding-bottom: 30px;
+    color: #4d4d4d;
+    font-family:Montserrat;
+    font-weight: 200;
+    font-size: 32px;
+    
+}
+
+section#references img{
+    border-radius: 50%;
+    width: 120px;
+    float:left;
+    padding-right: 10px;
+}
+
+section#references p{
+    font-family:Merriweather; 
+    padding: 5px;
+    font-weight: 400;
+    padding-bottom: 15px;
+    font-style: italic;
+    color:#4d4d4d;
+}
+
+section#references span{
+    font-style: italic;
+    font-family:Merriweather; 
+    font-size: 14px;
+    color: #bfbfbf;
+}
+
+#steps div.content{
+    display: flex;
+    flex-direction: row;
+    padding-top: 40px;
+    padding-bottom: 100px;
+}
+
+i{
+    font-size: 60px;
+    color:lightsteelblue;
+    float: left;
+    margin: 10px;
+    padding-bottom: 100px;
+}
+
+.steps-item{
+    flex-direction: row;
+}
+
+.steps-item h3{
+    text-transform: uppercase;
+    font-size: 14px;
+    padding-bottom: 10px;
+    font-family:Montserrat; 
+}
+
+.steps-item p{
+    font-size: 14px;
+    padding-bottom: 10px;
+    font-family:Merriweather ; 
+    color: #898989;
+}
+
+.steps-more{
+    text-transform: uppercase;
+    font-size: 11px;
+    font-family:Montserrat; 
+    font-weight: 800;
+}
+
+footer#contact{
+    padding-top: 40px;
+    padding-bottom: 100px;
+    background-color: #262626;
+}    
+
+footer#contact div.content{
+    display: flex;
+    flex-direction: row;
+}
+
+.contact-item{
+    width: 133%;
+}
+
+div.contact-item h3{
+    font-weight: 200;
+    font-family:Montserrat; 
+    color: white;
+    font-size: 24px;
+    padding-bottom: 20px;
+}
+
+div.contact-item p{
+    font-weight: 200;
+    font-family:Merriweather ; 
+    color: #898989;
+    font-size: 14px;
+}
+
+div.contact-item a{
+    text-transform: uppercase;
+    font-family:Merriweather; 
+    font-size: 14px;
+}
+
+ul{
+    list-style: none;
+}
+
+div.contact-item a:hover{
+    color:white;
+}
+
+#email-form{
+    border-radius: 4px;
+    border:0px;
+    width:300px;
+    padding:10px;
+    box-sizing:border-box;
+    font-size: 18px;
+    font-family:Montserrat;
+    color: #898989; 
+}
+   
+div.contact-item input#submit-btn{
+    margin:5px 0;
+    font-weight: 500;
+    text-transform: uppercase;
+    font-family:Montserrat; 
+    font-size: 14px;
+    color: white;
+    background-color:steelblue;
+    border-radius: 4px;
+    border:0px;
+    padding:10px;
+}
+
+#footer-note{
+    background-color:#1a1a1a;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    font-size: 12px;
+    color: #898989;
+    font-family:Montserrat;
+}
