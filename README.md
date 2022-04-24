@@ -10,7 +10,9 @@ INP   Projekt 1 21/23 : Projekt 2 8/10
 
 IOS   Projekt 1 12/15 
 
-IPK   Projekt 1 11/20 : Projekt 2 Varianta ZETA 
+IPK   Projekt 1 11/20 : Projekt 2 Varianta ZETA */20
+
+IPP   Projekt 1 parse.php 5.7/7 : Projekt 2 interpret.py, test.php */13 
 
 ISS   Projekt 11/18
 
