@@ -8,7 +8,7 @@ INC   Projekt 11/20
 
 INP   Projekt 1 21/23 : Projekt 2 8/10
 
-IOS   Projekt 1 12/15 
+IOS   Projekt 1 12/15 (tradelog), Projekt 1 (corona) */15 
 
 IPK   Projekt 1 11/20 : Projekt 2 Varianta ZETA */20
 
