@@ -1,0 +1,620 @@
+#!/bin/sh
+export POSIXLY_CORRECT=yes
+export LC_NUMERIC=en_US.UTF-8
+
+
+
+
+
+
+test_error="true"      #   true/false
+AFTER="0000-00-00"
+BEFORE="9999-00-00"
+filtr=",[ZM],"
+os_type=$(uname)
+per=$'\n'
+echo 
+
+head="id,datum,vek,pohlavi,kraj_nuts_kod,okres_lau_kod,nakaza_v_zahranici,nakaza_zeme_csu_kod,reportovano_khs"
+
+
+HELP='This is a help message.\n
+\tCommands:
+infected — spočítá počet nakažených.
+merge — sloučí několik souborů se záznamy do jednoho, zachovávající původní pořadí
+gender — vypíše počet nakažených pro jednotlivá pohlaví.
+age — vypíše statistiku počtu nakažených osob dle věku.
+daily — vypíše statistiku nakažených osob pro jednotlivé dny.
+monthly — vypíše statistiku nakažených osob pro jednotlivé měsíce.
+yearly — vypíše statistiku nakažených osob pro jednotlivé roky.
+countries — vypíše statistiku nakažených osob pro jednotlivé země nákazy.
+districts — vypíše statistiku nakažených osob pro jednotlivé okresy.
+regions — vypíše statistiku nakažených osob pro jednotlivé kraje.\n
+\terror_test:
+-a DATETIME — after: jsou uvažovány pouze záznamy PO tomto datu (včetně tohoto data). DATETIME je formátu
+YYYY-MM-DD.
+-b DATETIME — before: jsou uvažovány pouze záznamy PŘED tímto datem (včetně tohoto data).
+-g GENDER — jsou uvažovány pouze záznamy nakažených osob daného pohlaví. GENDER může být M (muži) nebo Z
+(ženy).
+-s [WIDTH] u příkazů gender, age, daily, monthly, yearly, countries, districts a regions vypisuje data ne číselně,
+ale graficky v podobě histogramů. Nepovinný parametr WIDTH nastavuje šířku histogramů, tedy délku nejdelšího
+řádku, na WIDTH. Tedy, WIDTH musí být kladné celé číslo. Pokud není parametr WIDTH uveden, řídí se šířky řádků
+požadavky uvedenými níže.\n
+\tOther:
+-h: Show this help\n'
+
+usage() { echo "Usage: $0 [-h] [error_test] [command] [log [log2 [...]]"; }
+getCommand() { 
+  if [ -n "$COMMAND" ]; then
+    echo "Multiple commands detected. Only one is allowed. Exiting." >&2
+    usage; exit 1
+  fi
+  COMMAND=$1
+}
+
+while true; do
+  case $1 in
+    "infected")
+      getCommand "$1"; shift;;
+    "merge")
+      getCommand "$1"; shift;;
+    "gender")
+      getCommand "$1"; shift;;
+    "age")
+      getCommand "$1"; shift;;
+	"countries2")
+      getCommand "$1"; shift;;
+    "daily")
+      getCommand "$1"; shift;;
+	"monthly")
+      getCommand "$1"; shift;;
+    "yearly")
+      getCommand "$1"; shift;;
+    "countries")
+      getCommand "$1"; shift;;
+    "districts")
+      getCommand "$1"; shift;;
+    "regions")
+      getCommand "$1"; shift;;
+
+    "-h")
+      echo "$HELP"; usage; exit 0;;
+    "-a")
+      AFTER=$2; shift; shift;;
+    "-b")
+      BEFORE=$2; shift; shift;;
+    "-g")
+      gend=$2; 
+		if [ "$gend" = "m" ] || [ "$gend" = "M" ];then
+			filtr=",M,"
+		fi
+		if [ "$gend" = "z" ] || [ "$gend" = "Z" ];then
+			filtr=",Z,"
+		fi
+		  shift; shift;;
+		  
+	"-s")
+		sss=true
+	  width=$(echo "$2" | grep -E "^[0-9]+$")
+	  if [ "$width" ];then
+		shift
+	  fi	  
+		shift;;
+	"-r")
+	  rrr="true"
+      pass_file=$2; shift; shift;;
+	"-d")
+	  ddd="true"
+      pass_file=$2; shift; shift;;	
+			
+					
+		  	  
+    "")
+
+	read -t 1 REPLY
+	if [ "$REPLY" ];then
+		while read REPLY; do
+		LOGS=$LOGS$(echo "$REPLY")$per
+		done
+	fi
+	
+	  if [ -z "$1" ] && [ "${#FILE}" -eq "0" ] && [ -z "$LOGS" ];then
+	    echo
+		echo "NO Files found!"
+		echo "insert files:"
+		read FILES
+			for FILE in $FILES
+			do
+				if [ "${FILE##*\.}" = "gz" ]; then
+					LOGS=$LOGS$(zcat "$FILE")'\n'
+				elif [ "${FILE##*\.}" = "bz2" ]; then
+					LOGS=$LOGS$(bzcat "$FILE")'\n'
+				else
+					LOGS=$LOGS$(cat "$FILE")'\n'
+				fi
+			done
+
+	  fi
+  
+      if [ -z "$1" ]; then break; fi;;
+
+    *)
+	
+	
+	
+      FILE=$1
+
+      if [ "${FILE##*\.}" = "gz" ]; then
+			LOGS=$LOGS$(zcat "$FILE")'\n'
+	  elif [ "${FILE##*\.}" = "bz2" ]; then
+        LOGS=$LOGS$(bzcat "$FILE")'\n'  
+	  elif [ "${FILE##*"/"*}" ]; then
+	  
+			if [ -f "$1" ];then
+				LOGS=$LOGS$(cat "$FILE")'\n'
+			else
+				echo
+				echo "Wrong commands detected: \"$1\" " >&2
+				echo
+				usage; exit 1
+			fi
+      else
+	  
+		LOGS=$LOGS$(cat "$FILE")'\n'
+      fi
+
+      shift
+  esac
+done
+
+
+LOGS=$(echo "$LOGS" | sed -e "/${head}/d" | sed 's/ //g' | grep "$filtr" | awk -F"," ' $2 >= "'${AFTER}'" && $2 <= "'${BEFORE}'" {print $0}' | grep '.')
+
+
+IFS=$'\n'
+
+
+
+
+
+
+
+
+
+
+
+
+error_testLinux() {
+
+for line in $(echo "$LOGS");do
+	age=$(echo "$line" | awk -F"," '{print $3}')
+	datum=$(echo "$line" | awk -F"," '{print $2}')
+
+	if [ -z "$(date -d $datum +%Y-%m-%d 2> /dev/null)" ];then
+		error=$error$(echo "Invalid date: $line")$per
+	elif [ "$age" != "$(echo $age | grep -o ^[0-9]*$)" ];then
+		error=$error$(echo "Invalid age: $line")$per
+	else
+		LOGS_Filtr=$LOGS_Filtr$line$per
+	fi  
+
+
+
+
+	if [ "$ddd" = "true" ];then
+		kod=$(echo "$line" | awk -F"," '{print $6}')
+		new_kod=$(cat $pass_file | grep "$kod" | awk -F";" '{print $2}')
+		if [ "$kod" ] && [ "$new_kod" ];then
+			continue
+		else
+			error=$error$(echo "Invalid value: $line")$per
+		fi	
+	fi
+	
+
+
+	if [ "$rrr" = "true" ];then
+		kod=$(echo "$line" | awk -F"," '{print $5}')
+		new_kod=$(cat $pass_file | grep "$kod" | awk -F";" '{print $2}')
+
+			if [ "$kod" ] && [ "$new_kod" ];then
+				continue
+			else
+			error=$error$(echo "Invalid value: $line")$per
+		fi	
+	fi
+
+done
+LOGS=$(echo "$LOGS_Filtr" | grep '.')
+}
+
+
+
+
+
+error_testMacOS() {
+
+
+for line in $(echo "$LOGS");do
+
+	age=$(echo "$line" | awk -F"," '{print $3}')
+	datum=$(echo "$line" | awk -F"," '{print $2}')
+	TEST_DATETIME=$(date -v+1M -v-1M -jf "%F" "$datum" +"%F" 2> /dev/null)
+
+
+	if [ "$TEST_DATETIME" != "$datum" ];then
+		error=$error$(echo "Invalid date: $line")$per
+	elif [ "$age" != "$(echo $age | grep -o ^[0-9]*$)" ];then
+		error=$error$(echo "Invalid age: $line")$per
+	else
+		LOGS_Filtr=$LOGS_Filtr$line$per
+	fi
+	
+		
+	if [ "$ddd" = "true" ];then
+		kod=$(echo "$line" | awk -F"," '{print $6}')
+		new_kod=$(cat $pass_file | grep "$kod" | awk -F";" '{print $2}')
+		if [ "$kod" ] && [ "$new_kod" ];then
+			continue
+		else
+			error=$error$(echo "Invalid value: $line")$per
+		fi	
+	fi
+	
+
+
+	if [ "$rrr" = "true" ];then
+		kod=$(echo "$line" | awk -F"," '{print $5}')
+		new_kod=$(cat $pass_file | grep "$kod" | awk -F";" '{print $2}')
+ 		if [ "$kod" ] && [ "$new_kod" ];then
+			continue
+		else
+			error=$error$(echo "Invalid value: $line")$per
+		fi	
+	fi
+done
+LOGS=$(echo "$LOGS_Filtr" | grep '.')
+
+}
+
+
+
+
+error_test() {
+if [ "$os_type" == "Linux" ] && [ "$test_error" == "true" ]; then
+	error_testLinux
+elif [ "$os_type" == "Darwin" ] || [ "$os_type" == "FreeBSD" ] && [ "$test_error" == "true" ]; then
+	error_testMacOS
+fi
+}
+
+
+
+
+
+
+rewotka() {
+	max_nom=$(echo "$NEW_LOGS" | awk '{print $NF}' | sort -n | tail -1)
+
+	if [ -z "$width" ];then
+		width=$max_nom
+	fi
+
+
+for line in $(echo "$NEW_LOGS");do
+	name=$(echo "$line" | awk -F":" '{print $1}')
+	get_nom=$(echo "$line" | awk '{print $NF}')
+	ckoko=$(($width*$get_nom/$max_nom))
+
+	if [ "$ckoko" -ne "0" ];then
+		NEW_LOGS2=$NEW_LOGS2$name:" "$(printf "%${ckoko}s" ' ' | sed "s/ /#/g")$per
+	else
+		NEW_LOGS2=$NEW_LOGS2$name:$per
+	fi
+done
+echo "$NEW_LOGS2" | sed 's/:/|:/g' | column -t -s '|' | sed 's/  :/:/g'
+}
+
+
+
+
+
+
+
+#Executing the commands
+case "${COMMAND}" in
+
+  "infected")
+ 
+	error_test  
+	echo "$LOGS" | grep '.' | wc -l | awk '{print $1}'
+    ;;
+
+
+  "merge")
+  
+    echo "${head}" > merge.csv
+	echo "$LOGS" >> merge.csv
+    cat merge.csv
+    ;;
+
+  "gender")
+  
+  error_test   
+  NEW_LOGS="M: $(echo "$LOGS" |  grep -c ",M,")
+Z: $(echo "$LOGS" |  grep -c ",Z,")"
+
+
+	if [ "$sss" = "true" ];then
+		rewotka
+	else
+		echo "$NEW_LOGS"
+	fi
+    ;;
+
+
+  "age") 
+ error_test
+  
+   
+aa=0; bb=0; cc=0; dd=0; ee=0; ff=0; gg=0; hh=0; jj=0; kk=0; ll=0; zz=0; xx=0; 
+for line in $(echo "$LOGS")
+do
+
+age=$(echo "$line" | awk -F"," '{print $3}')
+
+if [ -z "$age" ]; then xx=$(($xx+1)); continue; fi
+
+if [ "$age" = "$(echo $age | grep -o ^[0-9]*$)" ];then
+	if [ "$age" -ge "0" ] && [ "$age" -le "5" ]; then aa=$(($aa+1)); fi
+	if [ "$age" -ge "6" ] && [ "$age" -le "15" ]; then bb=$(($bb+1)); fi
+	if [ "$age" -ge "16" ] && [ "$age" -le "25" ]; then cc=$(($cc+1)); fi
+	if [ "$age" -ge "26" ] && [ "$age" -le "35" ]; then dd=$(($dd+1)); fi
+	if [ "$age" -ge "36" ] && [ "$age" -le "45" ]; then ee=$(($ee+1)); fi
+	if [ "$age" -ge "46" ] && [ "$age" -le "55" ]; then ff=$(($ff+1)); fi
+	if [ "$age" -ge "56" ] && [ "$age" -le "65" ]; then gg=$(($gg+1)); fi
+	if [ "$age" -ge "66" ] && [ "$age" -le "75" ]; then hh=$(($hh+1)); fi
+	if [ "$age" -ge "76" ] && [ "$age" -le "85" ]; then jj=$(($jj+1)); fi
+	if [ "$age" -ge "86" ] && [ "$age" -le "95" ]; then kk=$(($kk+1)); fi
+	if [ "$age" -ge "96" ] && [ "$age" -le "105" ]; then ll=$(($ll+1)); fi
+	if [ "$age" -ge "106" ]; then zz=$(($zz+1)); fi
+fi
+
+
+
+done
+
+NEW_LOGS="
+0-5   : $aa
+6-15  : $bb
+16-25 : $cc
+26-35 : ${dd}
+36-45 : $ee
+46-55 : $ff
+56-65 : $gg
+66-75 : $hh
+76-85 : $jj
+86-95 : $kk
+96-105: $ll
+>105  : $zz
+None  : $xx"
+
+if [ "$sss" = "true" ];then
+	rewotka
+else
+	echo "$NEW_LOGS"
+fi
+
+
+
+
+
+    ;;
+
+  "daily") 
+	error_test   
+ 	NEW_LOGS=$(echo "$LOGS" | awk -F"," '{print $2}' | sort | uniq -c | awk '{print $2": "$1}')
+	if [ "$sss" = "true" ];then
+		rewotka
+	else
+		echo "$NEW_LOGS"
+	fi
+    
+    ;;
+
+  "monthly") 
+	error_test
+	NEW_LOGS=$(echo "$LOGS" | awk -F"," '{print $2}' | awk -F"-" '{print $1"-"$2}' | sort | uniq -c | awk '{print $2": "$1}')
+	if [ "$sss" = "true" ];then
+		rewotka
+	else
+		echo "$NEW_LOGS"
+	fi 
+    ;;
+
+  "yearly") 
+	error_test
+	NEW_LOGS=$(echo "$LOGS" | awk -F"," '{print $2}' | awk -F"-" '{print $1}' | sort | uniq -c | awk '{print $2": "$1}')
+  
+	if [ "$sss" = "true" ];then
+		rewotka
+	else
+		echo "$NEW_LOGS"
+	fi
+    
+    ;;
+
+    "countries")
+	error_test
+	none=0  
+ 
+for line in $(echo "$LOGS" | awk -F"," '{print $8}' | sort | uniq -c | awk '{print $2": "$1}')
+do
+	noneA=$(echo "$line" | grep '^[:]' | awk -F":" '{print $2}' | sed 's/ //g')
+	if [ "$noneA" ];then
+		none=$noneA
+	else
+		NEW_LOGS=$NEW_LOGS$(echo "$line")$per
+	fi
+done
+
+NEW_LOGS=$(echo "$NEW_LOGS" | sort)
+
+
+if [ "$none" -ne "0" ];then
+	NEW_LOGS=$NEW_LOGS$per$(echo "None: $none")
+fi
+
+if [ "$sss" = "true" ];then
+	rewotka
+else
+	echo "$NEW_LOGS" | sed 's/:/|:/g' | column -t -s '|' | sed 's/  :/:/g' 
+fi
+    ;; 
+	 
+    "districts")
+	error_test
+	none=0  
+ 
+  
+for line in $(echo "$LOGS" | awk -F"," '{print $6}' | sort | uniq -c | awk '{print $2": "$1}')
+do
+	noneA=$(echo "$line" | grep '^[:]' | awk -F":" '{print $2}' | sed 's/ //g')
+if [ "$noneA" ];then
+	none=$noneA
+else
+	NEW_LOGS=$NEW_LOGS$(echo "$line")$per
+fi
+done
+
+
+
+if [ "$ddd" = "true" ];then
+
+for line in $(echo "$NEW_LOGS")
+do
+
+	kod=$(echo "$line" | awk -F":" '{print $1}')
+	new_kod=$(cat $pass_file | grep "$kod" | awk -F";" '{print $2}')
+	if [ "$kod" ] && [ "$new_kod" ];then
+		new_line=$(echo "$line" | sed -e "s/${kod}/${new_kod}/g" | sed 's/\"//g')
+		Ghang_line=$Ghang_line$(echo "$new_line")$per
+	else
+		Ghang_line=$Ghang_line$(echo "$line")$per
+	fi
+done
+	NEW_LOGS="$Ghang_line"
+fi
+
+
+NEW_LOGS=$(echo "$NEW_LOGS" | sort)
+
+if [ "$none" -ne "0" ];then
+	NEW_LOGS=$NEW_LOGS$per$(echo "None: $none")
+fi
+
+if [ "$sss" = "true" ];then
+	rewotka
+else
+	echo "$NEW_LOGS" | sed 's/:/|:/g' | column -t -s '|' | sed 's/  :/:/g' 
+fi
+ 
+
+    ;;
+    "regions")
+	error_test
+	none=0
+	for line in $(echo "$LOGS" | awk -F"," '{print $5}' | sort | uniq -c | awk '{print $2": "$1}')
+	do
+		noneA=$(echo "$line" | grep '^[:]' | awk -F":" '{print $2}' | sed 's/ //g')
+		if [ "$noneA" ];then
+			none=$noneA
+		else
+			NEW_LOGS=$NEW_LOGS$(echo "$line")$per
+		fi
+	done
+
+
+
+
+
+if [ "$rrr" = "true" ];then
+
+	for line in $(echo "$NEW_LOGS")
+	do
+		kod=$(echo "$line" | awk -F":" '{print $1}')
+		new_kod=$(cat $pass_file | grep "$kod" | awk -F";" '{print $2}')
+
+		if [ "$kod" ] && [ "$new_kod" ];then
+			new_line=$(echo "$line" | sed -e "s/${kod}/${new_kod}/g" | sed 's/\"//g')
+			Ghang_line=$Ghang_line$(echo "$new_line")$per
+		else
+			Ghang_line=$Ghang_line$(echo "$line")$per
+		fi
+
+
+	done
+	NEW_LOGS="$Ghang_line"
+fi
+
+NEW_LOGS=$(echo "$NEW_LOGS" | sort)
+
+if [ "$none" -ne "0" ];then
+	NEW_LOGS=$NEW_LOGS$per$(echo "None: $none")
+fi
+
+
+
+if [ "$sss" = "true" ];then
+	rewotka
+else
+	echo "$NEW_LOGS" | sed 's/:/|:/g' | column -t -s '|' | sed 's/  :/:/g' 
+fi
+    ;;
+    
+
+  "")
+
+  error_test
+  echo "$head"
+    printf "%b\n" "$LOGS"
+    ;;
+	
+
+
+esac
+
+echo
+
+if [ "$os_type" == "Linux" ]; then
+	if [ "$error" ];then
+		echo -e "$error" >&2
+		exit 1
+	fi
+	
+fi	
+
+
+if [ "$os_type" == "Darwin" ]; then
+	if [ "$error" ];then
+		echo "$error" >&2
+		exit 1
+	fi
+	
+fi
+
+
+
+
+if [ "$os_type" == "FreeBSD" ]; then
+	if [ "$error" ];then
+		echo -e "$error"  >&2  # 2> /dev/null
+	exit 1
+	fi
+fi
+
+
+
+
+exit 0
+
