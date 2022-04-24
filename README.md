@@ -10,6 +10,8 @@ INP   Projekt 1 21/23 : Projekt 2 8/10
 
 IOS   Projekt 1 12/15 
 
+IPK   Projekt 1 11/20 : Projekt 2 Varianta ZETA 
+
 ISS   Projekt 11/18
 
 ITW   Projekt 1 12/20 : Projekt 2 23/30
