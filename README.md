@@ -3,7 +3,7 @@
 | Předmět | Projekt/Body |
 | ------ | ------ |
 | [IAL](https://www.fit.vut.cz/study/course/244827/.cs) | 1. domácí úloha ``10/10`` : 2. domácí úloha ``8.5/10`` |
-| [IDS](https://www.fit.vut.cz/study/course/244838/.cs) | 1. ERD, UCD ``3/5`` : 2. SQL skript pro vytvoření základních objektů  ``4/5`` : 3. SQL skript SELECT ``4/5`` : 4. 5. Poslední SQL skript, dokumentace ``*/19``|
+| [IDS](https://www.fit.vut.cz/study/course/244838/.cs) | 1. ERD, UCD ``3/5`` : 2. SQL skript  ``4/5`` : 3. SQL skript SELECT ``4/5`` : 4. 5. SQL skript, dokumentace ``*/19``|
 | [IEL](https://www.fit.vut.cz/study/course/224908/.cs) | Semestrální projekt ``4/12`` |
 | [INC](https://www.fit.vut.cz/study/course/224931/.cs) | Projekt ``11/20`` |
 | [INP](https://www.fit.vut.cz/study/course/244863/.cs) | Projekt 1 ``21/23`` : Projekt 2 ``8/10`` |
