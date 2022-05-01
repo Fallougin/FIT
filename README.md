@@ -3,6 +3,7 @@
 | Předmět | Projekt/Body |
 | ------ | ------ |
 | IAL | 1. domácí úloha ``10/10`` : 2. domácí úloha ``8.5/10`` |
+| IDS | 1.  ``3/5`` : 2.  ``4/5`` : 3. ``4/5`` : 4. 5. ``*/19``|
 | IEL | Semestrální projekt ``4/12`` |
 | INC | Projekt ``11/20`` |
 | INP | Projekt 1 ``21/23`` : Projekt 2 ``8/10`` |
