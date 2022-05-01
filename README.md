@@ -6,7 +6,7 @@
 | IEL | Semestrální projekt ``4/12`` |
 | INC | Projekt ``11/20`` |
 | INP | Projekt 1 ``21/23`` : Projekt 2 ``8/10`` |
-| IOS | Projekt 1 ``12/15`` (tradelog), Projekt 1 (corona) ``*/15`` |
+| IOS | Projekt 1 ``12/15`` (tradelog), Projekt 1 (corona) ``12/15`` |
 | IPK | Projekt 1 ``11/20`` : Projekt 2 Varianta ZETA ``*/20`` |
 | IPP | Projekt 1 parse.php ``5.7/7`` : Projekt 2 interpret.py, test.php ``*/13`` |
 | ISS | Projekt ``11/18`` |
