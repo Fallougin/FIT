@@ -2,7 +2,7 @@
 
 | Předmět | Projekt/Body |
 | ------ | ------ |
-| IAL | 1. domácí úloha ``10/10`` : 2. domácí úloha ``8.5/10`` |
+| [IAL](https://www.fit.vut.cz/study/course/244827/.cs0 | 1. domácí úloha ``10/10`` : 2. domácí úloha ``8.5/10`` |
 | IDS | 1.  ``3/5`` : 2.  ``4/5`` : 3. ``4/5`` : 4. 5. ``*/19``|
 | IEL | Semestrální projekt ``4/12`` |
 | INC | Projekt ``11/20`` |
