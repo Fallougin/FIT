@@ -9,7 +9,7 @@
 | [INP](https://www.fit.vut.cz/study/course/244863/.cs) | Projekt 1 ``21/23`` ┃ Projekt 2 ``8/10`` |
 | [IOS](https://www.fit.vut.cz/study/course/224936/.cs) | Projekt 1 ``12/15`` (tradelog) ┃ Projekt 1 (corona) ``12/15`` |
 | [IPK](https://www.fit.vut.cz/study/course/244865/.cs) | Projekt 1 ``11/20`` ┃ Projekt 2 Varianta ZETA ``*/20`` |
-| [IPP](https://www.fit.vut.cz/study/course/244867/.cs) | Projekt 1 parse.php ``5.7/7`` ┃ Projekt 2 interpret.py, test.php ``*/13`` |
+| [IPP](https://www.fit.vut.cz/study/course/244867/.cs) | Projekt 1 parse.php ``5.7/7`` ┃ Projekt 2 interpret.py, test.php ``11/13`` |
 | [ISS](https://www.fit.vut.cz/study/course/244882/.cs) | Projekt ``11/18`` |
 | [ITW](https://www.fit.vut.cz/study/course/ITW/.cs) | Projekt 1 ``12/20`` ┃ Projekt 2 ``23/30`` |
 | [IUS](https://www.fit.vut.cz/study/course/224969/.cs) | 31. Ženská věznice ``14/24`` |
